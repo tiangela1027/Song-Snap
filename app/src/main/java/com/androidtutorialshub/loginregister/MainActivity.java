@@ -1,8 +1,10 @@
 package com.androidtutorialshub.loginregister;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 
+import com.androidtutorialshub.loginregister.activities.TipsActivity;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -94,8 +99,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_tippage) {
             // Handle the camera action
+            Intent intentMain = new Intent(MainActivity.this,
+                    TipsActivity.class);
+            MainActivity.this.startActivity(intentMain);
+            Log.i("Content "," Main layout ");
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -144,7 +153,18 @@ public class MainActivity extends AppCompatActivity
 
     private void connected() {
         // Play a playlist
-        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX7K31D69s4M1");
+
+        Button button = (Button) findViewById(R.id.start_playing);
+        if (button != null) {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX7K31D69s4M1");
+                }
+            });
+        }
+
+        final EditText text = (EditText) findViewById(R.id.editText5);
 
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
@@ -154,6 +174,7 @@ public class MainActivity extends AppCompatActivity
                     public void onEvent(PlayerState playerState) {
                         final Track track = playerState.track;
                         if (track != null) {
+                            text.setText(track.name);
                             Log.d("MainActivity", track.name + " by " + track.artist.name);
                         }
                     }
