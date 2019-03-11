@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Welcome!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -154,15 +153,61 @@ public class MainActivity extends AppCompatActivity
     private void connected() {
         // Play a playlist
 
-        Button button = (Button) findViewById(R.id.start_playing);
-        if (button != null) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX7K31D69s4M1");
-                }
-            });
-        }
+        mSpotifyAppRemote.getPlayerApi()
+                .subscribeToPlayerState()
+                .setEventCallback(new Subscription.EventCallback<PlayerState>() {
+                    @Override
+                    public void onEvent(final PlayerState playerState) {
+                        final Track track = playerState.track;
+                        final Button button = (Button) findViewById(R.id.start_playing);
+                        Button prev = (Button) findViewById(R.id.prev);
+                        Button next = (Button) findViewById(R.id.next);
+
+                        if (prev != null) {
+                            prev.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    mSpotifyAppRemote.getPlayerApi().skipPrevious();
+                                }
+                            });
+                        }
+                        if (next != null) {
+                            next.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    mSpotifyAppRemote.getPlayerApi().skipNext();
+                                }
+                            });
+                        }
+
+                        if (playerState.isPaused) {
+                            if (button != null) {
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
+                                        button.setBackground(getDrawable(R.drawable.pause_button));
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            if (button != null) {
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        mSpotifyAppRemote.getPlayerApi().pause();
+                                        button.setBackground(getDrawable(R.drawable.play_button));
+                                    }
+                                });
+                            }
+
+                            if (track != null) {
+                                Log.d("MainActivity", track.name + " by " + track.artist.name);
+                            }
+                        }
+                    }
+                });
 
         final EditText text = (EditText) findViewById(R.id.editText5);
 

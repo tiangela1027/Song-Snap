@@ -27,4 +27,6 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="main_song">Current Playing</string>
+    <string name="main_button1">new swap</string>
+    <string name="main_button2">swap history</string>
 </resources>
