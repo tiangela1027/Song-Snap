@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity
                     TipsActivity.class);
             MainActivity.this.startActivity(intentMain);
             Log.i("Content "," Main layout ");
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_history) {
 
         } else if (id == R.id.nav_slideshow) {
 

@@ -9,9 +9,9 @@
             android:icon="@drawable/note"
             android:title="Tips" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_history"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="Swap History" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
