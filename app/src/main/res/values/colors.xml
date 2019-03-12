@@ -6,4 +6,5 @@
     <color name="colorBackground">#413e4f</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorTextHint">#413e4f</color>
+    <color name="colorRoundButton">#72010A0F</color>
 </resources>

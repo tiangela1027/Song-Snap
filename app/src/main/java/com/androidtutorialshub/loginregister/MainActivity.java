@@ -162,8 +162,15 @@ public class MainActivity extends AppCompatActivity
                     public void onEvent(final PlayerState playerState) {
                         final Track track = playerState.track;
                         final Button button = (Button) findViewById(R.id.start_playing);
+
                         Button prev = (Button) findViewById(R.id.prev);
                         Button next = (Button) findViewById(R.id.next);
+
+                        if (playerState.isPaused)
+                            button.setBackground(getDrawable(R.drawable.play_button));
+                        else
+                            button.setBackground(getDrawable(R.drawable.pause_button));
+
 
                         if (prev != null) {
                             prev.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +195,6 @@ public class MainActivity extends AppCompatActivity
                                     @Override
                                     public void onClick(View view) {
                                         mSpotifyAppRemote.getPlayerApi().play("spotify:playlist:37i9dQZF1DX2sUQwD7tbmL");
-                                        button.setBackground(getDrawable(R.drawable.pause_button));
                                     }
                                 });
                             }
@@ -199,7 +205,6 @@ public class MainActivity extends AppCompatActivity
                                     @Override
                                     public void onClick(View view) {
                                         mSpotifyAppRemote.getPlayerApi().pause();
-                                        button.setBackground(getDrawable(R.drawable.play_button));
                                     }
                                 });
                             }
