@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity
     private static final String CLIENT_ID = "632ccf1ebb954055ac342ed9305ebd23";
     private static final String REDIRECT_URI = "http://com.androidtutorialshub.loginregister/callback/";
     private SpotifyAppRemote mSpotifyAppRemote;
+    private String text = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Welcome!", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "current playing    " + text, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -210,8 +211,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        final TextView text = (TextView) findViewById(R.id.song_name);
-
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()
                 .subscribeToPlayerState()
@@ -220,7 +219,7 @@ public class MainActivity extends AppCompatActivity
                     public void onEvent(PlayerState playerState) {
                         final Track track = playerState.track;
                         if (track != null) {
-                            text.setText(track.name);
+                            text = track.name;
                             Log.d("MainActivity", track.name + " by " + track.artist.name);
                         }
                     }
