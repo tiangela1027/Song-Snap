@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.androidtutorialshub.loginregister.activities.TipsActivity;
 import com.spotify.android.appremote.api.ConnectionParams;
@@ -209,7 +210,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        final EditText text = (EditText) findViewById(R.id.editText5);
+        final TextView text = (TextView) findViewById(R.id.song_name);
 
         // Subscribe to PlayerState
         mSpotifyAppRemote.getPlayerApi()

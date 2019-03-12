@@ -8,9 +8,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.androidtutorialshub.loginregister.MainActivity;
 import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.TimerPageActivity;
 
 public class TipsActivity extends AppCompatActivity {
     private final AppCompatActivity activity = TipsActivity.this;
@@ -29,5 +32,16 @@ public class TipsActivity extends AppCompatActivity {
                 Log.i("Content "," Main layout ");
             }
         });
+
+        ImageButton start_rec = (ImageButton) findViewById(R.id.start_rec);
+        start_rec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentMain = new Intent(getApplicationContext(), TimerPageActivity.class);
+                startActivity(intentMain);
+                Log.i("Content "," Record layout ");
+            }
+        });
+
     }
 }
