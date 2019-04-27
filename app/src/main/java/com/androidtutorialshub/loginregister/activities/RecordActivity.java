@@ -40,7 +40,7 @@ public class RecordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer_page);
         recbtn = (Button) findViewById(R.id.start_rec);
-        playbtn = (Button) findViewById(R.id.imageButton3);
+        playbtn = (Button) findViewById(R.id.imageButton2);
         stopplaybtn = (Button) findViewById(R.id.imageButton3);
         stopbtn.setEnabled(false);
         playbtn.setEnabled(false);
