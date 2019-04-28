@@ -7,4 +7,5 @@
     <color name="colorText">#FFFFFF</color>
     <color name="colorTextHint">#413e4f</color>
     <color name="colorRoundButton">#72010A0F</color>
+    <color name="colorHappy">#A39C27B0</color>
 </resources>

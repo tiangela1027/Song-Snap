@@ -37,7 +37,7 @@ public class TipsActivity extends AppCompatActivity {
         start_rec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intentMain = new Intent(getApplicationContext(), TimerPageActivity.class);
+                Intent intentMain = new Intent(getApplicationContext(), RecordActivity.class);
                 startActivity(intentMain);
                 Log.i("Content "," Record layout ");
             }

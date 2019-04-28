@@ -10,9 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.adapters.UsersRecyclerAdapter;
-import com.androidtutorialshub.loginregister.model.User;
-import com.androidtutorialshub.loginregister.sql.DatabaseHelper;
+import com.androidtutorialshub.loginregister.adapters.SongsRecyclerAdapter;
+import com.androidtutorialshub.loginregister.model.Song;
+import com.androidtutorialshub.loginregister.sql.SongDBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,14 @@ import java.util.List;
  * Created by lalit on 10/10/2016.
  */
 
-public class UsersListActivity extends AppCompatActivity {
+public class SongListActivity extends AppCompatActivity {
 
-    private AppCompatActivity activity = UsersListActivity.this;
+    private AppCompatActivity activity = SongListActivity.this;
     private AppCompatTextView textViewName;
     private RecyclerView recyclerViewUsers;
-    private List<User> listUsers;
-    private UsersRecyclerAdapter usersRecyclerAdapter;
-    private DatabaseHelper databaseHelper;
+    private List<Song> listUsers;
+    private SongsRecyclerAdapter usersRecyclerAdapter;
+    private SongDBHelper databaseHelper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,14 +53,14 @@ public class UsersListActivity extends AppCompatActivity {
      */
     private void initObjects() {
         listUsers = new ArrayList<>();
-        usersRecyclerAdapter = new UsersRecyclerAdapter(listUsers);
+        usersRecyclerAdapter = new SongsRecyclerAdapter(listUsers);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewUsers.setLayoutManager(mLayoutManager);
         recyclerViewUsers.setItemAnimator(new DefaultItemAnimator());
         recyclerViewUsers.setHasFixedSize(true);
         recyclerViewUsers.setAdapter(usersRecyclerAdapter);
-        databaseHelper = new DatabaseHelper(activity);
+        databaseHelper = new SongDBHelper(activity);
 
         String emailFromIntent = getIntent().getStringExtra("NAME");
         textViewName.setText(emailFromIntent);
@@ -77,7 +77,7 @@ public class UsersListActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... params) {
                 listUsers.clear();
-                listUsers.addAll(databaseHelper.getAllUser());
+                listUsers.addAll(databaseHelper.getAllSongs());
 
                 return null;
             }

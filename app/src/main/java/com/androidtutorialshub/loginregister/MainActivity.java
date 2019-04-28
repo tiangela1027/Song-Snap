@@ -16,10 +16,10 @@ import android.view.MenuItem;
 
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.androidtutorialshub.loginregister.activities.TipsActivity;
+import com.androidtutorialshub.loginregister.activities.SongListActivity;
+import com.androidtutorialshub.loginregister.sql.SongDBHelper;
 import com.spotify.android.appremote.api.ConnectionParams;
 import com.spotify.android.appremote.api.Connector;
 import com.spotify.android.appremote.api.SpotifyAppRemote;
@@ -28,13 +28,20 @@ import com.spotify.protocol.client.Subscription;
 import com.spotify.protocol.types.PlayerState;
 import com.spotify.protocol.types.Track;
 
+import com.androidtutorialshub.loginregister.R;
+import com.androidtutorialshub.loginregister.model.Song;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private final AppCompatActivity activity = MainActivity.this;
 
     private static final String CLIENT_ID = "632ccf1ebb954055ac342ed9305ebd23";
     private static final String REDIRECT_URI = "http://com.androidtutorialshub.loginregister/callback/";
     private SpotifyAppRemote mSpotifyAppRemote;
     private String text = "";
+
+    private SongDBHelper songDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,35 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Button new_snap = (Button) findViewById(R.id.button);
+        new_snap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentMain = new Intent(getApplicationContext(), TipsActivity.class);
+                startActivity(intentMain);
+                Log.i("Content "," Go to Tips page. ");
+            }
+        });
+
+        Button snap_his = (Button) findViewById(R.id.button2);
+        snap_his.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentMain = new Intent(getApplicationContext(), SongListActivity.class);
+                startActivity(intentMain);
+                Log.i("Content "," Go to Tips page. ");
+            }
+        });
+
+        initObjects();
+    }
+
+    /**
+     * This method is to initialize objects to be used
+     */
+    private void initObjects() {
+        songDBHelper = new SongDBHelper(activity);
     }
 
     @Override
@@ -153,14 +189,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void connected() {
-        // Play a playlist
 
+        final Song song = new Song();
+
+        // Play a playlist
         mSpotifyAppRemote.getPlayerApi()
                 .subscribeToPlayerState()
                 .setEventCallback(new Subscription.EventCallback<PlayerState>() {
                     @Override
                     public void onEvent(final PlayerState playerState) {
                         final Track track = playerState.track;
+
                         final Button button = (Button) findViewById(R.id.start_playing);
 
                         Button prev = (Button) findViewById(R.id.prev);
@@ -226,6 +265,11 @@ public class MainActivity extends AppCompatActivity
                         if (track != null) {
                             text = track.name;
                             Log.d("MainActivity", track.name + " by " + track.artist.name);
+
+                            song.setId(track.uri);
+                            song.setName(track.name);
+
+                            songDBHelper.addSong(song);
                         }
                     }
                 });
