@@ -201,6 +201,8 @@ public class MainActivity extends AppCompatActivity
 
                         song.setId(track.uri);
                         song.setName(track.name);
+                        song.setArtist(track.artist.name);
+                        song.setAlbum(track.album.name);
 
                         songDBHelper.addSong(song);
 

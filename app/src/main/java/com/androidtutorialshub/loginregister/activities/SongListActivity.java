@@ -25,9 +25,9 @@ public class SongListActivity extends AppCompatActivity {
 
     private AppCompatActivity activity = SongListActivity.this;
     private AppCompatTextView textViewName;
-    private RecyclerView recyclerViewUsers;
-    private List<Song> listUsers;
-    private SongsRecyclerAdapter usersRecyclerAdapter;
+    private RecyclerView recyclerViewSongs;
+    private List<Song> listSongs;
+    private SongsRecyclerAdapter songsRecyclerAdapter;
     private SongDBHelper databaseHelper;
 
     @Override
@@ -45,21 +45,21 @@ public class SongListActivity extends AppCompatActivity {
      */
     private void initViews() {
         textViewName = (AppCompatTextView) findViewById(R.id.textViewName);
-        recyclerViewUsers = (RecyclerView) findViewById(R.id.recyclerViewUsers);
+        recyclerViewSongs = (RecyclerView) findViewById(R.id.recyclerViewUsers);
     }
 
     /**
      * This method is to initialize objects to be used
      */
     private void initObjects() {
-        listUsers = new ArrayList<>();
-        usersRecyclerAdapter = new SongsRecyclerAdapter(listUsers);
+        listSongs = new ArrayList<>();
+        songsRecyclerAdapter = new SongsRecyclerAdapter(listSongs);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewUsers.setLayoutManager(mLayoutManager);
-        recyclerViewUsers.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewUsers.setHasFixedSize(true);
-        recyclerViewUsers.setAdapter(usersRecyclerAdapter);
+        recyclerViewSongs.setLayoutManager(mLayoutManager);
+        recyclerViewSongs.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewSongs.setHasFixedSize(true);
+        recyclerViewSongs.setAdapter(songsRecyclerAdapter);
         databaseHelper = new SongDBHelper(activity);
 
         String emailFromIntent = getIntent().getStringExtra("NAME");
@@ -76,8 +76,8 @@ public class SongListActivity extends AppCompatActivity {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                listUsers.clear();
-                listUsers.addAll(databaseHelper.getAllSongs());
+                listSongs.clear();
+                listSongs.addAll(databaseHelper.getAllSongs());
 
                 return null;
             }
@@ -85,7 +85,7 @@ public class SongListActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
-                usersRecyclerAdapter.notifyDataSetChanged();
+                songsRecyclerAdapter.notifyDataSetChanged();
             }
         }.execute();
     }

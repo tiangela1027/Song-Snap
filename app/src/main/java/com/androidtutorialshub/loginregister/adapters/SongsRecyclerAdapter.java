@@ -36,7 +36,8 @@ public class SongsRecyclerAdapter extends RecyclerView.Adapter<SongsRecyclerAdap
     @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
         holder.textViewName.setText(listSongs.get(position).getName());
-        holder.textViewID.setText(listSongs.get(position).getId());
+        holder.textViewArtist.setText(listSongs.get(position).getArtist());
+        holder.textViewAlbum.setText(listSongs.get(position).getAlbum());
     }
 
     @Override
@@ -51,12 +52,13 @@ public class SongsRecyclerAdapter extends RecyclerView.Adapter<SongsRecyclerAdap
      */
     public class SongViewHolder extends RecyclerView.ViewHolder {
 
-        public AppCompatTextView textViewName, textViewID;
+        public AppCompatTextView textViewName, textViewArtist, textViewAlbum;
 
         public SongViewHolder(View view) {
             super(view);
             textViewName = (AppCompatTextView) view.findViewById(R.id.textViewName);
-            textViewID = (AppCompatTextView) view.findViewById(R.id.textViewID);
+            textViewArtist = (AppCompatTextView) view.findViewById(R.id.textViewArtist);
+            textViewAlbum = (AppCompatTextView) view.findViewById(R.id.textViewAlbum);
         }
     }
 

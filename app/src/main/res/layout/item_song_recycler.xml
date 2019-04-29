@@ -43,16 +43,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Song ID"
+                android:text="@string/hint_artist"
                 android:textColor="@color/colorTextHint"
                 android:typeface="monospace"/>
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/textViewID"
+                android:id="@+id/textViewArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Song ID"
+                android:text="@string/hint_artist"
+                android:textColor="@android:color/darker_gray"
+                android:typeface="monospace"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/hint_album"
+                android:textColor="@color/colorTextHint"
+                android:typeface="monospace"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/textViewAlbum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/hint_album"
                 android:textColor="@android:color/darker_gray"
                 android:typeface="monospace"/>
         </LinearLayout>

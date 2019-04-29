@@ -21,18 +21,21 @@ public class SongDBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Database Name
-    private static final String DATABASE_NAME = "SongManager.db";
+    private static final String DATABASE_NAME = "Songs.db";
 
     // User table name
-    private static final String TABLE_SONG = "songs";
+    private static final String TABLE_SONG = "song";
 
     // User Table Columns names
     private static final String COLUMN_SONG_ID = "song_id";
-    private static final String COLUMN_SONG_NAME = "song_name";
+    private static final String COLUMN_SONG_TITLE = "song_name";
+    private static final String COLUMN_SONG_ARTIST = "song_artist";
+    private static final String COLUMN_SONG_ALBUM = "song_album";
 
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_SONG + "("
-            + COLUMN_SONG_ID + " TEXT PRIMARY KEY," + COLUMN_SONG_NAME + " TEXT" + ")";
+            + COLUMN_SONG_ID + " TEXT PRIMARY KEY," + COLUMN_SONG_TITLE + " TEXT,"
+            + COLUMN_SONG_ARTIST + " TEXT," + COLUMN_SONG_ALBUM + " TEXT" + ")";
 
     // drop table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_SONG;
@@ -72,8 +75,10 @@ public class SongDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SONG_NAME, song.getName());
         values.put(COLUMN_SONG_ID, song.getId());
+        values.put(COLUMN_SONG_TITLE, song.getName());
+        values.put(COLUMN_SONG_ARTIST, song.getArtist());
+        values.put(COLUMN_SONG_ALBUM, song.getAlbum());
 
         // Inserting Row
         db.insert(TABLE_SONG, null, values);
@@ -89,11 +94,13 @@ public class SongDBHelper extends SQLiteOpenHelper {
         // array of columns to fetch
         String[] columns = {
                 COLUMN_SONG_ID,
-                COLUMN_SONG_NAME,
+                COLUMN_SONG_ARTIST,
+                COLUMN_SONG_TITLE,
+                COLUMN_SONG_ALBUM
         };
         // sorting orders
         String sortOrder =
-                COLUMN_SONG_NAME + " ASC";
+                COLUMN_SONG_TITLE + " ASC";
         List<Song> songList = new ArrayList<Song>();
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -118,7 +125,9 @@ public class SongDBHelper extends SQLiteOpenHelper {
             do {
                 Song song = new Song();
                 song.setId(cursor.getString(cursor.getColumnIndex(COLUMN_SONG_ID)));
-                song.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SONG_NAME)));
+                song.setName(cursor.getString(cursor.getColumnIndex(COLUMN_SONG_TITLE)));
+                song.setArtist(cursor.getString(cursor.getColumnIndex(COLUMN_SONG_ARTIST)));
+                song.setAlbum(cursor.getString(cursor.getColumnIndex(COLUMN_SONG_ALBUM)));
                 // Adding user record to list
                 songList.add(song);
             } while (cursor.moveToNext());
@@ -131,7 +140,7 @@ public class SongDBHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * This method to update user record
+     * This method to update song record
      *
      * @param song
      */
@@ -139,7 +148,9 @@ public class SongDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SONG_NAME, song.getName());
+        values.put(COLUMN_SONG_TITLE, song.getName());
+        values.put(COLUMN_SONG_ARTIST, song.getArtist());
+        values.put(COLUMN_SONG_ALBUM, song.getAlbum());
 
         // updating row
         db.update(TABLE_SONG, values, COLUMN_SONG_ID + " = ?",
@@ -150,24 +161,23 @@ public class SongDBHelper extends SQLiteOpenHelper {
     /**
      * This method is to delete user record
      *
-     * @param song
+     * @param user
      */
-    public void deleteSong(Song song) {
+    public void deleteUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         // delete user record by id
         db.delete(TABLE_SONG, COLUMN_SONG_ID + " = ?",
-                new String[]{String.valueOf(song.getId())});
+                new String[]{String.valueOf(user.getId())});
         db.close();
     }
 
     /**
      * This method to check user exist or not
      *
-     * @param id
+     * @param email
      * @return true/false
      */
-
-    public boolean checkSong (String id) {
+    public boolean checkUser(String email) {
 
         // array of columns to fetch
         String[] columns = {
@@ -176,11 +186,17 @@ public class SongDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // selection criteria
-        String selection = COLUMN_SONG_ID + " = ?";
+        String selection = COLUMN_SONG_ARTIST + " = ?";
 
         // selection argument
-        String[] selectionArgs = {id};
+        String[] selectionArgs = {email};
 
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         */
         Cursor cursor = db.query(TABLE_SONG, //Table to query
                 columns,                    //columns to return
                 selection,                  //columns for the WHERE clause
@@ -206,8 +222,6 @@ public class SongDBHelper extends SQLiteOpenHelper {
      * @param password
      * @return true/false
      */
-
-    /*
     public boolean checkUser(String email, String password) {
 
         // array of columns to fetch
@@ -216,12 +230,17 @@ public class SongDBHelper extends SQLiteOpenHelper {
         };
         SQLiteDatabase db = this.getReadableDatabase();
         // selection criteria
-        String selection = COLUMN_USER_EMAIL + " = ?" + " AND " + COLUMN_USER_PASSWORD + " = ?";
+        String selection = COLUMN_SONG_ARTIST + " = ?" + " AND " + COLUMN_SONG_ALBUM + " = ?";
 
         // selection arguments
         String[] selectionArgs = {email, password};
 
         // query user table with conditions
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com' AND user_password = 'qwerty';
+         */
         Cursor cursor = db.query(TABLE_SONG, //Table to query
                 columns,                    //columns to return
                 selection,                  //columns for the WHERE clause
@@ -240,5 +259,4 @@ public class SongDBHelper extends SQLiteOpenHelper {
 
         return false;
     }
-    */
 }
