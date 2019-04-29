@@ -32,7 +32,7 @@ public class SongDBHelper extends SQLiteOpenHelper {
 
     // create table sql query
     private String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_SONG + "("
-            + COLUMN_SONG_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_SONG_NAME + " TEXT" + ")";
+            + COLUMN_SONG_ID + " TEXT PRIMARY KEY," + COLUMN_SONG_NAME + " TEXT" + ")";
 
     // drop table sql query
     private String DROP_USER_TABLE = "DROP TABLE IF EXISTS " + TABLE_SONG;
@@ -66,13 +66,14 @@ public class SongDBHelper extends SQLiteOpenHelper {
     /**
      * This method is to create user record
      *
-     * @param user
+     * @param song
      */
-    public void addSong(Song user) {
+    public void addSong(Song song) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(COLUMN_SONG_NAME, user.getName());
+        values.put(COLUMN_SONG_NAME, song.getName());
+        values.put(COLUMN_SONG_ID, song.getId());
 
         // Inserting Row
         db.insert(TABLE_SONG, null, values);
@@ -162,12 +163,11 @@ public class SongDBHelper extends SQLiteOpenHelper {
     /**
      * This method to check user exist or not
      *
-     * @param email
+     * @param id
      * @return true/false
      */
 
-    /*
-    public boolean checkUser(String email) {
+    public boolean checkSong (String id) {
 
         // array of columns to fetch
         String[] columns = {
@@ -176,10 +176,10 @@ public class SongDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         // selection criteria
-        String selection = COLUMN_USER_EMAIL + " = ?";
+        String selection = COLUMN_SONG_ID + " = ?";
 
         // selection argument
-        String[] selectionArgs = {email};
+        String[] selectionArgs = {id};
 
         Cursor cursor = db.query(TABLE_SONG, //Table to query
                 columns,                    //columns to return
@@ -198,7 +198,6 @@ public class SongDBHelper extends SQLiteOpenHelper {
 
         return false;
     }
-    */
 
     /**
      * This method to check user exist or not

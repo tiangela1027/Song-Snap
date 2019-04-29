@@ -190,8 +190,6 @@ public class MainActivity extends AppCompatActivity
 
     private void connected() {
 
-        final Song song = new Song();
-
         // Play a playlist
         mSpotifyAppRemote.getPlayerApi()
                 .subscribeToPlayerState()
@@ -199,6 +197,12 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onEvent(final PlayerState playerState) {
                         final Track track = playerState.track;
+                        final Song song = new Song();
+
+                        song.setId(track.uri);
+                        song.setName(track.name);
+
+                        songDBHelper.addSong(song);
 
                         final Button button = (Button) findViewById(R.id.start_playing);
 
@@ -265,11 +269,6 @@ public class MainActivity extends AppCompatActivity
                         if (track != null) {
                             text = track.name;
                             Log.d("MainActivity", track.name + " by " + track.artist.name);
-
-                            song.setId(track.uri);
-                            song.setName(track.name);
-
-                            songDBHelper.addSong(song);
                         }
                     }
                 });

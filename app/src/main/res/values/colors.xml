@@ -6,6 +6,6 @@
     <color name="colorBackground">#413e4f</color>
     <color name="colorText">#FFFFFF</color>
     <color name="colorTextHint">#413e4f</color>
-    <color name="colorRoundButton">#72010A0F</color>
-    <color name="colorHappy">#A39C27B0</color>
+    <color name="colorRoundButton">#010A0F</color>
+    <color name="colorHappy">#8AB368C2</color>
 </resources>

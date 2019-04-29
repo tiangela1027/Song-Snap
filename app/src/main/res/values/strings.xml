@@ -2,6 +2,9 @@
     <string name="app_name">Song Snap</string>
     <string name="text_accounts">Songs Played</string>
     <string name="hint_name">Name</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_album">Album</string>
+    <string name="hint_artist">Main Artist</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_confirm_password">Confirm Password</string>
@@ -26,6 +29,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="main_song">Current Song</string>
-    <string name="main_button1">New Snap</string>
+    <string name="main_button1">Snap This</string>
     <string name="main_button2">Snap History</string>
 </resources>

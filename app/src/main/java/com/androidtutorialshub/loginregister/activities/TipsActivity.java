@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 
 import com.androidtutorialshub.loginregister.MainActivity;
 import com.androidtutorialshub.loginregister.R;
-import com.androidtutorialshub.loginregister.TimerPageActivity;
 
 public class TipsActivity extends AppCompatActivity {
     private final AppCompatActivity activity = TipsActivity.this;
