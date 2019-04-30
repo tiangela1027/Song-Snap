@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 
+import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -32,7 +39,7 @@ import com.androidtutorialshub.loginregister.R;
 public class RecordActivity extends AppCompatActivity {
 
     public static final int RequestPermissionCode = 1;
-    Button buttonStart, buttonStop, buttonStopPlayingRecording, buttonPlayLastRecordAudio;
+    Button buttonStart, buttonStop, buttonStopPlayingRecording, buttonPlayLastRecordAudio, buttonShare;
     String AudioSavePathInDevice = null;
     MediaRecorder mediaRecorder;
     Random random;
@@ -48,10 +55,12 @@ public class RecordActivity extends AppCompatActivity {
         buttonStop = (Button) findViewById(R.id.button2);
         buttonPlayLastRecordAudio = (Button) findViewById(R.id.button3);
         buttonStopPlayingRecording = (Button) findViewById(R.id.button4);
+        buttonShare = (Button) findViewById(R.id.button6);
 
         buttonStop.setEnabled(false);
         buttonPlayLastRecordAudio.setEnabled(false);
         buttonStopPlayingRecording.setEnabled(false);
+        buttonShare.setEnabled(false);
 
         random = new Random();
 
@@ -73,7 +82,7 @@ public class RecordActivity extends AppCompatActivity {
 
                     AudioSavePathInDevice =
                             Environment.getExternalStorageDirectory().getAbsolutePath() + "/" +
-                                    CreateRandomAudioFileName(5) + "AudioRecording.3gp";
+                                    CreateRandomAudioFileName(5) + "AudioRecording.mp3";
 
                     MediaRecorderReady();
 
@@ -122,6 +131,7 @@ public class RecordActivity extends AppCompatActivity {
                 buttonStop.setEnabled(false);
                 buttonStart.setEnabled(false);
                 buttonStopPlayingRecording.setEnabled(true);
+                buttonShare.setEnabled(true);
 
                 mediaPlayer = new MediaPlayer();
                 try {
@@ -144,6 +154,7 @@ public class RecordActivity extends AppCompatActivity {
                 buttonStart.setEnabled(true);
                 buttonStopPlayingRecording.setEnabled(false);
                 buttonPlayLastRecordAudio.setEnabled(true);
+                buttonShare.setEnabled(true);
 
                 if (mediaPlayer != null) {
                     mediaPlayer.stop();
@@ -152,6 +163,15 @@ public class RecordActivity extends AppCompatActivity {
                 }
             }
         });
+
+        buttonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buttonShare.setEnabled(true);
+                sendWhatsAppAudio();
+            }
+        });
+
 
     }
 
@@ -209,5 +229,18 @@ public class RecordActivity extends AppCompatActivity {
                 RECORD_AUDIO);
         return result == PackageManager.PERMISSION_GRANTED &&
                 result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void sendWhatsAppAudio(){
+        try {
+            Uri uri = Uri.parse(AudioSavePathInDevice);
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setPackage("com.whatsapp");
+            share.setType("audio/*");
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            startActivity(Intent.createChooser(share, "Share Sound File"));
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Cannot send recording through WhatsApp", Toast.LENGTH_LONG).show();
+        }
     }
 }
